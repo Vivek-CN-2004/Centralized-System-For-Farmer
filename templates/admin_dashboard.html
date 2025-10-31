@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="dashboard glass">
+  <h2>Admin Dashboard</h2>
+  <div class="split">
+    <div class="panel">
+      <h3>Users</h3>
+      <table class="table">
+        <thead><tr><th>ID</th><th>Name</th><th>Role</th><th>Email</th><th>Phone</th><th>Action</th></tr></thead>
+        <tbody>
+          {% for u in users %}
+          <tr>
+            <td>{{ u.id }}</td>
+            <td>{{ u.name }}</td>
+            <td>{{ u.role }}</td>
+            <td>{{ u.email }}</td>
+            <td>{{ u.phone }}</td>
+            <td><a class="btn danger" href="{{ url_for('admin_delete_user', uid=u.id) }}">Remove</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="panel">
+      <h3>Products</h3>
+      <table class="table">
+        <thead><tr><th>ID</th><th>Name</th><th>Farmer</th><th>Price</th><th>Sold</th><th>Action</th></tr></thead>
+        <tbody>
+          {% for p in products %}
+          <tr>
+            <td>{{ p.id }}</td>
+            <td>{{ p.name }}</td>
+            <td>{{ p.farmer_name }}</td>
+            <td>₹ {{ '%.2f'|format(p.price) }}</td>
+            <td>{{ 'Yes' if p.sold else 'No' }}</td>
+            <td><a class="btn warn" href="{{ url_for('admin_delete_product', pid=p.id) }}">Remove</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% endblock %}

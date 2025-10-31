@@ -1,0 +1,60 @@
+{% set bg_image = 'https://images.unsplash.com/photo-1549880187-2d8a2dfbd6f8?q=80&w=2070&auto=format&fit=crop' %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ t('title') }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script defer src="{{ url_for('static', filename='js/main.js') }}"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/add_product.css') }}">
+
+</head>
+<body style="background-image:url('{{ bg_image }}');">
+  <header class="nav">
+    <div class="brand">🌾 {{ t('title') }}</div>
+    <nav>
+      <a href="{{ url_for('index') }}">Home</a>
+      <a href="{{ url_for('set_lang', code='en') }}">EN</a>
+      <a href="{{ url_for('set_lang', code='kn') }}">KN</a>
+      {% if session.get('user_id') %}
+        <span class="hello">Hi, {{ session.get('name') }}</span>
+        {% if session.get('role') == 'farmer' %}
+          <a href="{{ url_for('farmer_dashboard') }}">{{ t('farmer') }} Panel</a>
+          <a class="btn danger" href="{{ url_for('farmer_logout') }}">{{ t('logout') }}</a>
+        {% elif session.get('role') == 'buyer' %}
+          <a href="{{ url_for('buyer_dashboard') }}">{{ t('buyer') }} Panel</a>
+          <a class="btn danger" href="{{ url_for('buyer_logout') }}">{{ t('logout') }}</a>
+        {% elif session.get('role') == 'admin' %}
+          <a href="{{ url_for('admin_dashboard') }}">{{ t('admin') }} Panel</a>
+          <a class="btn danger" href="{{ url_for('buyer_logout') }}">{{ t('logout') }}</a>
+          <div style="position: fixed; top: 10px; right: 10px;">
+  <a href="{{ url_for('set_language', lang='en') }}" class="btn btn-sm btn-light">English</a>
+  <a href="{{ url_for('set_language', lang='kn') }}" class="btn btn-sm btn-light">ಕನ್ನಡ</a>
+</div>
+
+        {% endif %}
+      {% endif %}
+    </nav>
+  </header>
+
+  <main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-wrap">
+          {% for category, message in messages %}
+            <div class="flash {{ category }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    <div class="line"></div>
+    <p>© {{ 2025 }} NammaRaitha • Serving Farmers & Buyers</p>
+  </footer>
+</body>
+</html>

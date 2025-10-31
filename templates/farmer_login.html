@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="auth glass">
+  <div class="tabs">
+    <a href="{{ url_for('farmer_login') }}" class="tab {{ 'active' if mode=='login' else '' }}">Login</a>
+    <a href="{{ url_for('farmer_register') }}" class="tab {{ 'active' if mode=='register' else '' }}">Register</a>
+  </div>
+  {% if mode=='login' %}
+  <form method="post" class="form">
+    <label>Email or Phone</label>
+    <input name="email_or_phone" required placeholder="name@example.com or 9XXXXXXXXX">
+    <label>Password</label>
+    <input name="password" type="password" required placeholder="••••••••">
+    <button class="btn primary">Login as Farmer</button>
+  </form>
+  {% else %}
+  <form method="post" class="form">
+    <label>Name</label>
+    <input name="name" required placeholder="Your good name">
+    <label>Email (optional)</label>
+    <input name="email" placeholder="name@example.com">
+    <label>Phone</label>
+    <input name="phone" required placeholder="9XXXXXXXXX">
+    <label>Password</label>
+    <input name="password" type="password" required placeholder="Choose a strong password">
+    <button class="btn success">Register Farmer</button>
+     
+    <a href="{{ url_for('index') }}" class="btn-primary" style="margin-bottom:10px; font:12px;"><button>BackHome</button>
+  
+
+
+  </form>
+  {% endif %}
+</div>
+{% endblock %}

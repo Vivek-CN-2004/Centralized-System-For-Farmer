@@ -1,0 +1,92 @@
+/* add_product.css */
+
+/* Form container */
+form {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    font-family: Arial, sans-serif;
+}
+
+/* Form heading */
+form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Input fields */
+form div {
+    margin-bottom: 15px;
+}
+
+form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+form input[type="text"],
+form input[type="number"],
+form input[type="file"],
+form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+/* Textarea */
+form textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+/* Buttons */
+form button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #2c7be5;
+    color: #a4d1ee;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #1a5ec8;
+}
+
+/* Camera preview */
+#camera {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+#preview {
+    display: block;
+    border: 1px solid #a7e1fc;
+    border-radius: 6px;
+    margin-top: 10px;
+    max-width: 100%;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    form {
+        padding: 15px;
+    }
+    #camera, #preview {
+        width: 100%;
+        height: auto;
+    }
+}

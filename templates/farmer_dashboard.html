@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="dashboard glass">
+  <div class="dash-header">
+    <h2>Farmer Dashboard</h2>
+    <a href="{{ url_for('farmer_add') }}" class="btn primary">+ Add Product</a>
+  </div>
+  <div class="grid">
+    {% for p in products %}
+      <div class="tile">
+        <img src="{{ url_for('uploaded_file', filename=p.image_filename) if p.image_filename else 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?q=80&w=2069&auto=format&fit=crop' }}" alt="product">
+        <div class="tile-body">
+          <h3>{{ p.name }} {% if p.sold %}<span class="badge sold">SOLD</span>{% endif %}</h3>
+          <p>{{ p.description }}</p>
+          <div class="meta">
+            <span>₹ {{ '%.2f'|format(p.price) }}</span>
+            <span>📞 {{ p.phone or 'N/A' }}</span>
+          </div>
+          <div class="actions">
+            <a class="btn warn" href="{{ url_for('farmer_delete', pid=p.id) }}">Delete</a>
+          </div>
+    
+        </div>
+       
+      </div>
+    {% else %}
+      <p>No products yet. Add your first crop!</p>
+    {% endfor %}
+  </div>
+  <a href="{{ url_for('index') }}" class="btn-primary" style="margin-bottom:10px;"><button  class="btn primary" color="green">BackHome</button>
+  
+</a>
+
+  <h3>Notifications</h3>
+  <ul class="notes">
+    {% for n in notes %}
+      <li>🔔 {{ n.message }} <small>{{ n.created_at }}</small></li>
+    {% else %}
+      <li>No notifications yet.</li>
+    {% endfor %}
+  </ul>
+</section>
+{% endblock %}

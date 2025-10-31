@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>{{ t('farmer') }} - Add Product</h2>
+
+<form method="POST" enctype="multipart/form-data">
+    <div>
+        <label for="name">Product Name</label>
+        <input type="text" id="name" name="name"   placeholder="" required>
+    </div>
+
+    <div>
+        <label for="price">Price (₹)</label>
+        <input type="number" id="price" name="price" step="1" required>
+    </div>
+
+    <div>
+        <label for="description">Description</label>
+        <textarea id="description" name="description" placeholder="perkg/ton/quintal , location "></textarea>
+    </div>
+
+    <div>
+        <label for="phone">Phone Number(Optional)</label>
+        <input type="text" id="phone" name="phone">
+    </div>
+
+    <div>
+        <label>Upload Image</label>
+        <input type="file" name="image" accept="image/*">
+    </div>
+
+    <div>
+        <label>Or Capture from Camera (Optional)</label><br>
+        <video id="camera" width="320" height="240" autoplay></video><br>
+        <button type="button" id="snap">Take Photo</button><br>
+        <canvas id="canvas" width="320" height="240" style="display:none;"></canvas>
+        <input type="hidden" name="camera_image" id="camera_image">
+        <img id="preview" src="" style="max-width:320px;margin-top:10px;">
+    </div>
+
+    <div style="margin-top:10px;">
+        <button type="submit">Add Product</button>
+    </div>
+</form>
+
+<script>
+const video = document.getElementById('camera');
+const canvas = document.getElementById('canvas');
+const snap = document.getElementById('snap');
+const preview = document.getElementById('preview');
+const camera_image = document.getElementById('camera_image');
+
+// Ask for camera access
+navigator.mediaDevices.getUserMedia({ video: true })
+.then(stream => { video.srcObject = stream; })
+.catch(err => { console.error('Camera error:', err); });
+
+snap.addEventListener('click', () => {
+    canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+    const dataURL = canvas.toDataURL('image/png');
+    camera_image.value = dataURL;
+    preview.src = dataURL;
+});
+</script>
+{% endblock %}

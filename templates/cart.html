@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="dashboard glass">
+  <h2>Your Cart</h2>
+  <div class="grid">
+    {% for it in items %}
+      <div class="tile">
+        <img src="{{ url_for('uploaded_file', filename=it.image_filename) if it.image_filename else 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?q=80&w=2069&auto=format&fit=crop' }}" alt="product">
+        <div class="tile-body">
+          <h3>{{ it.name }}</h3>
+          <div class="meta">
+            <span>₹ {{ '%.2f'|format(it.price) }}</span>
+            <span>👨‍🌾 {{ it.farmer_name }}</span>
+          </div>
+          <div class="actions">
+            <a class="btn warn" href="{{ url_for('remove_from_cart', cart_id=it.cart_id) }}">Remove</a>
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <p>Your cart is empty.</p>
+    {% endfor %}
+  </div>
+  {% if items %}
+  <form method="post" action="{{ url_for('checkout') }}">
+    <button class="btn success">Place Order (Cash on Delivery)</button><a href="{{ url_for('index') }}" class="btn btn-primary" style="margin-bottom:10px;"><button>BackHome</button>
+  
+</a>
+  </form>
+  {% endif %}
+</section>
+{% endblock %}

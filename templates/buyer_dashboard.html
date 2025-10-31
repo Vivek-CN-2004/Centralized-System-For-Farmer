@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="dashboard glass">
+  <div class="dash-header">
+    <h2>Buyer Dashboard</h2>
+    <form action="{{ url_for('search') }}" class="search">
+      <input name="q" id="search-input" value="{{ query or '' }}" placeholder="Search crops (English or Kannada)...">
+      <button class="btn primary">Search</button>
+      <div id="suggestions" class="suggestions"></div>
+    </form>
+    <a href="{{ url_for('buyer_cart') }}" class="btn secondary">🛒 Cart</a>
+  </div>
+
+  <div class="grid">
+    {% for p in products %}
+      <div class="tile">
+        <img src="{{ url_for('uploaded_file', filename=p.image_filename) if p.image_filename else 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?q=80&w=2069&auto=format&fit=crop' }}" alt="product">
+        <div class="tile-body">
+          <h3>{{ p.name }}</h3>
+          <p>{{ p.description }}</p>
+          <div class="meta">
+            <span>₹ {{ '%.2f'|format(p.price) }}</span>
+            <span>👨‍🌾 {{ p.farmer_name }}</span>
+            <span>📞 {{ p.phone or 'N/A' }}</span>
+          </div>
+          <div class="actions">
+            <a class="btn primary" href="{{ url_for('add_to_cart', pid=p.id) }}">Add to Cart</a>
+          </div>
+          <form method="post" action="{{ url_for('review', pid=p.id) }}" class="review">
+            <label>Rate:</label>
+            <select name="rating">
+              <option>5</option><option>4</option><option>3</option><option>2</option><option>1</option>
+            </select>
+            <input name="text" placeholder="Leave a short review">
+            <button class="btn secondary">Submit</button>
+          </form>
+        </div>
+      </div>
+    {% else %}
+      <p>No products available right now.</p>
+    {% endfor %}
+  </div>
+
+ <a href="{{ url_for('index') }}" class="btn btn-primary" style="margin-bottom:10px;"><button class="btn secondary">BackHome</button>
+</a>
+  <h3>Notifications</h3>
+  <ul class="notes">
+    {% for n in notes %}
+      <li>🔔 {{ n.message }} <small>{{ n.created_at }}</small></li>
+    {% else %}
+      <li>No notifications yet.</li>
+    {% endfor %}
+  </ul>
+</section>
+{% endblock %}
